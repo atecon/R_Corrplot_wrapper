@@ -1,15 +1,18 @@
 set R_functions on
 
 foreign language=R
-  Corrplot_R <- function(M, method, fname) {
+  Corrplot_R <- function(M, method, cmin, cmax, fname) {
+
+	# URL: https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
 	library(corrplot)
 
 	#dev.off()	# avoid permante flashing-up when using gretl
 	png(filename=fname, type="cairo", width=600, height=600, pointsize=14, bg=NA, res=96)
-	corrplot(M, method=method)
+	corrplot(M, method=method, cl.lim=c(cmin,cmax)) # ,col = gray.colors(10))
     dev.off()
 	0
   }
+
   Corrplot_R1 <- function(M, method, fname) {
     # package Cairo 1.5-9 (2015-09-26)
     library(Cairo)
