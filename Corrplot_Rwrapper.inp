@@ -1,0 +1,45 @@
+set R_functions on
+
+foreign language=R
+  Corrplot_R <- function(M, method, fname) {
+	library(corrplot)
+
+	#dev.off()	# avoid permante flashing-up when using gretl
+	png(filename=fname, type="cairo", width=600, height=600, pointsize=14, bg=NA, res=96)
+	corrplot(M, method=method)
+    dev.off()
+	0
+  }
+  Corrplot_R1 <- function(M, method, fname) {
+    # package Cairo 1.5-9 (2015-09-26)
+    library(Cairo)
+	library(corrplot)
+
+    #dev.off()
+    # dimensions in pixels
+    CairoPNG(filename=fname, width=600, height=600, pointsize=14)
+	corrplot(M, method=method)
+    dev.off()
+    0
+  }
+end foreign
+
+/*
+# example call
+matrix M = mnormal(200, 8)
+M = mcorr(M)
+
+string fname = sprintf("%s/Corrplot_R.png", $workdir)
+Select a method:
+-----------------
+# "circle"
+# "square"
+# "ellipse"
+# "number"
+# "shade"
+# "color"
+# "pie"
+
+rret = R.Corrplot_R(M, "color", fname) 	# standard plot())
+#rret = R.Corrplot_R1(M, "color", fname) 	# Cairo
+*/
