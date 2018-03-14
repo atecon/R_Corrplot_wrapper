@@ -39,7 +39,7 @@ Corrplot_R <- function(M, method, cmin, cmax, fontsize, fname) {
 
 end foreign
 
-#/*
+/*
 # example call
 clear
 matrix M = mnormal(200, 8)
@@ -61,4 +61,4 @@ scalar cmax = 1
 scalar fs = 10
 rret = R.Corrplot_R(M, "color", cmin, cmax, fs, fname) 	# standard plot())
 #rret = R.Corrplot_R1(M, "color", cmin, cmax, fname) 	# Cairo
-#*/
+*/
