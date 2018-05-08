@@ -14,7 +14,7 @@ Corrplot_R <- function(M, method, monochrome, cmin, cmax, fontsize, fname) {
     corrplot(M, method=method, cl.lim=c(cmin,cmax)) # ,col = gray.colors(10))
   }
   if (monochrome!=0) {
-    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(100)) # ,col = gray.colors(10))
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(25), tl.col = "black") # ,col = gray.colors(10))
   }
   dev.off()
   0
