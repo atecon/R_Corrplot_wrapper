@@ -47,14 +47,14 @@ Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize,
 
 # produces a sequence of letters A, B, ..., AA, AB, ..., BA, BB, ...
 # https://stackoverflow.com/questions/25876755/is-there-a-way-to-extend-letters-past-26-characters-e-g-aa-ab-ac
-letterwrap <- function(n, depth = 1) {
-    args <- lapply(1:depth, FUN = function(x) return(LETTERS))
-    x <- do.call(expand.grid, args = list(args, stringsAsFactors = F))
-    x <- x[, rev(names(x)), drop = F]
-    x <- do.call(paste0, x)
-    if (n <= length(x)) return(x[1:n])
-    return(c(x, letterwrap(n - length(x), depth = depth + 1)))
-}
+	letterwrap <- function(n, depth = 1) {
+	    args <- lapply(1:depth, FUN = function(x) return(LETTERS))
+    	x <- do.call(expand.grid, args = list(args, stringsAsFactors = F))
+    	x <- x[, rev(names(x)), drop = F]
+    	x <- do.call(paste0, x)
+    	if (n <= length(x)) return(x[1:n])
+    	return(c(x, letterwrap(n - length(x), depth = depth + 1)))
+	}
 
 end foreign
 
