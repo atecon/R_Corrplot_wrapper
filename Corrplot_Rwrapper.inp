@@ -2,12 +2,15 @@ set verbose off
 set R_functions on
 
 foreign language=R
-Corrplot_R <- function(M, method, monochrome, cmin, cmax, fontsize, fname) {
+Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize, fname) {
   
   # URL: https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
   pkgTest("corrplot")
   library(corrplot)
-  
+  if (letterlabel==1) {
+	colnames(M) <- letterwrap(dim(M)[1])
+	rownames(M) <- letterwrap(dim(M)[1])
+  }
   #dev.off()	# avoid permante flashing-up when using gretl
   png(filename=fname, type="cairo", width=600, height=600, pointsize=fontsize, bg=NA, res=96)
   if (monochrome==0) {
@@ -18,7 +21,7 @@ Corrplot_R <- function(M, method, monochrome, cmin, cmax, fontsize, fname) {
   }
   dev.off()
   0
- }
+}
 
   Corrplot_R1 <- function(M, method, fname) {
     # package Cairo 1.5-9 (2015-09-26)
@@ -41,6 +44,17 @@ Corrplot_R <- function(M, method, monochrome, cmin, cmax, fontsize, fname) {
         if (!require(x,character.only = TRUE)) stop("Package not found")
     	}
   	}
+
+# produces a sequence of letters A, B, ..., AA, AB, ..., BA, BB, ...
+# https://stackoverflow.com/questions/25876755/is-there-a-way-to-extend-letters-past-26-characters-e-g-aa-ab-ac
+letterwrap <- function(n, depth = 1) {
+    args <- lapply(1:depth, FUN = function(x) return(LETTERS))
+    x <- do.call(expand.grid, args = list(args, stringsAsFactors = F))
+    x <- x[, rev(names(x)), drop = F]
+    x <- do.call(paste0, x)
+    if (n <= length(x)) return(x[1:n])
+    return(c(x, letterwrap(n - length(x), depth = depth + 1)))
+}
 
 end foreign
 
@@ -65,6 +79,7 @@ scalar cmin = -1
 scalar cmax = 1
 scalar fs = 12
 scalar monochrome = 0	# 0=colored, 1=monochrome
-rret = R.Corrplot_R(M, "color", monochrome, cmin, cmax, fs, fname) 	# standard plot())
+scalar letterlabel = 0	# 0=sequential numbers as labels, 1=sequential letters as labels
+rret = R.Corrplot_R(M, "color", monochrome, letterlabel, cmin, cmax, fs, fname) 	# standard plot())
 #rret = R.Corrplot_R1(M, "color", cmin, cmax, fname) 	# Cairo
 */
