@@ -2,15 +2,20 @@ set verbose off
 set R_functions on
 
 foreign language=R
-Corrplot_R <- function(M, method, cmin, cmax, fontsize, fname) {
+Corrplot_R <- function(M, method, monochrome, cmin, cmax, fontsize, fname) {
   
   # URL: https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
   pkgTest("corrplot")
   library(corrplot)
   
   #dev.off()	# avoid permante flashing-up when using gretl
-  png(filename=fname, type="cairo", width=600, height=600, pointsize=fontsize, bg=NA, res=96)	
-  corrplot(M, method=method, cl.lim=c(cmin,cmax)) # ,col = gray.colors(10))
+  png(filename=fname, type="cairo", width=600, height=600, pointsize=fontsize, bg=NA, res=96)
+  if (monochrome==0) {
+    corrplot(M, method=method, cl.lim=c(cmin,cmax)) # ,col = gray.colors(10))
+  }
+  if (monochrome!=0) {
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(100)) # ,col = gray.colors(10))
+  }
   dev.off()
   0
  }
@@ -33,7 +38,7 @@ Corrplot_R <- function(M, method, cmin, cmax, fontsize, fname) {
     	if (!require(x,character.only = TRUE))
     	{
       	install.packages(x,dep=TRUE)
-        if(!require(x,character.only = TRUE)) stop("Package not found")
+        if (!require(x,character.only = TRUE)) stop("Package not found")
     	}
   	}
 
@@ -58,7 +63,8 @@ string fname = sprintf("%s/Corrplot_R.png", $workdir)
 
 scalar cmin = -1
 scalar cmax = 1
-scalar fs = 10
-rret = R.Corrplot_R(M, "color", cmin, cmax, fs, fname) 	# standard plot())
+scalar fs = 12
+scalar monochrome = 0	# 0=colored, 1=monochrome
+rret = R.Corrplot_R(M, "color", monochrome, cmin, cmax, fs, fname) 	# standard plot())
 #rret = R.Corrplot_R1(M, "color", cmin, cmax, fname) 	# Cairo
 */

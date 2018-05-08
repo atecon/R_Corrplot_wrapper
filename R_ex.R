@@ -1,4 +1,4 @@
-Corrplot_R <- function(M, method, cmin, cmax, fontsize, fname) {
+Corrplot_R <- function(M, method, monochrome, cmin, cmax, fontsize, fname) {
   
   # URL: https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
   pkgTest("corrplot")
@@ -6,7 +6,12 @@ Corrplot_R <- function(M, method, cmin, cmax, fontsize, fname) {
   
   #dev.off()	# avoid permante flashing-up when using gretl
   png(filename=fname, type="cairo", width=600, height=600, pointsize=fontsize, bg=NA, res=96)	
-  corrplot(M, method=method, cl.lim=c(cmin,cmax)) # ,col = gray.colors(10))
+  if (monochrome==0) {
+    corrplot(M, method=method, cl.lim=c(cmin,cmax)) # ,col = gray.colors(10))
+  }
+  if (monochrome!=0) {
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(100)) # ,col = gray.colors(10))
+  }
   dev.off()
   0
 }
@@ -41,4 +46,4 @@ M2 <- runif(n,min=-1,max=1)
 M3 <- runif(n,min=-1,max=1) 
 dat <- cbind(M1,M2,M3)
 fname = "/home/at/gretl/R_corrplot_test"
-Corrplot_R(dat, "number", -1, 1, fs, fname)
+Corrplot_R(dat, "color", 1, -1, 1, fs, fname)
