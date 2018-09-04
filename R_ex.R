@@ -7,10 +7,12 @@ Corrplot_R <- function(M, method, monochrome, cmin, cmax, fontsize, fname) {
   #dev.off()	# avoid permante flashing-up when using gretl
   png(filename=fname, type="cairo", width=600, height=600, pointsize=fontsize, bg=NA, res=96)	
   if (monochrome==0) {
-    corrplot(M, method=method, cl.lim=c(cmin,cmax)) # ,col = gray.colors(10))
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), is.corr=FALSE) # ,col = gray.colors(10))
+    # "is.corr=FALSE" makes sure that the color-range is automatically adapted when the
+    # correlation range to plot gets narrower.
   }
   if (monochrome!=0) {
-    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(100)) # ,col = gray.colors(10))
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(100), is.corr=FALSE) # ,col = gray.colors(10))
   }
   dev.off()
   0
@@ -45,5 +47,5 @@ M1 <- runif(n,min=-1,max=1)
 M2 <- runif(n,min=-1,max=1) 
 M3 <- runif(n,min=-1,max=1) 
 dat <- cbind(M1,M2,M3)
-fname = "/home/at/gretl/R_corrplot_test"
-Corrplot_R(dat, "color", 1, -1, 1, fs, fname)
+fname = "/home/at/gretl/R_corrplot_test.png"
+Corrplot_R(dat, "color", 0, -1, 1, fs, fname)

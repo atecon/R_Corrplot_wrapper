@@ -14,10 +14,12 @@ Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize,
   #dev.off()	# avoid permante flashing-up when using gretl
   png(filename=fname, type="cairo", width=600, height=600, pointsize=fontsize, bg=NA, res=96)
   if (monochrome==0) {
-    corrplot(M, method=method, cl.lim=c(cmin,cmax)) # ,col = gray.colors(10))
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), is.corr=FALSE) # ,col = gray.colors(10))
+    # "is.corr=FALSE" makes sure that the color-range is automatically adapted when the
+    # correlation range to plot gets narrower.
   }
   if (monochrome!=0) {
-    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(25), tl.col = "black") # ,col = gray.colors(10))
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(25), tl.col = "black", is.corr=FALSE) # ,col = gray.colors(10))
   }
   dev.off()
   0
