@@ -12,15 +12,16 @@ Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize,
 	rownames(M) <- letterwrap(dim(M)[1])
   }
   #dev.off()	# avoid permante flashing-up when using gretl
-  png(filename=fname, type="cairo", width=600, height=600, pointsize=fontsize, bg=NA, res=96)
+  png(filename=fname, type="cairo", width=600, height=600, bg=NA, res=96)	
   par(family="Times")
   if (monochrome==0) {
-    corrplot(M, method=method, cl.lim=c(cmin,cmax), is.corr=FALSE) # ,col = gray.colors(10))
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), is.corr=FALSE, tl.cex=fontsize)
     # "is.corr=FALSE" makes sure that the color-range is automatically adapted when the
     # correlation range to plot gets narrower.
   }
   if (monochrome!=0) {
-    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(25), tl.col = "black", is.corr=FALSE) # ,col = gray.colors(10))
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(50, start=0.9, end=0.3), tl.col = "black", is.corr=FALSE, tl.cex=fontsize)
+	# ,col = gray.colors(10))
   }
   dev.off()
   0
@@ -33,9 +34,9 @@ Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize,
 
     #dev.off()
     # dimensions in pixels
-    CairoPNG(filename=fname, width=600, height=600, pointsize=14)
+    CairoPNG(filename=fname, width=600, height=600)#, pointsize=14)
 	par(family="Times")
-	corrplot(M, method=method)
+	corrplot(M, method=method, tl.cex=1.1)
     dev.off()
     0
   }
@@ -81,9 +82,9 @@ string fname = sprintf("%s/Corrplot_R.png", $workdir)
 
 scalar cmin = -1
 scalar cmax = 1
-scalar fs = 12
+scalar fs = 0.7			# relative size, default = 1
 scalar monochrome = 0	# 0=colored, 1=monochrome
 scalar letterlabel = 0	# 0=sequential numbers as labels, 1=sequential letters as labels
 rret = R.Corrplot_R(M, "color", monochrome, letterlabel, cmin, cmax, fs, fname) 	# standard plot())
-#rret = R.Corrplot_R1(M, "color", cmin, cmax, fname) 	# Cairo
+#rret = R.Corrplot_R1(M, "shade", cmin, cmax, fname) 	# Cairo
 */
