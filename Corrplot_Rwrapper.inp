@@ -13,6 +13,7 @@ Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize,
   }
   #dev.off()	# avoid permante flashing-up when using gretl
   png(filename=fname, type="cairo", width=600, height=600, pointsize=fontsize, bg=NA, res=96)
+  par(family="Times")
   if (monochrome==0) {
     corrplot(M, method=method, cl.lim=c(cmin,cmax), is.corr=FALSE) # ,col = gray.colors(10))
     # "is.corr=FALSE" makes sure that the color-range is automatically adapted when the
@@ -33,6 +34,7 @@ Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize,
     #dev.off()
     # dimensions in pixels
     CairoPNG(filename=fname, width=600, height=600, pointsize=14)
+	par(family="Times")
 	corrplot(M, method=method)
     dev.off()
     0
