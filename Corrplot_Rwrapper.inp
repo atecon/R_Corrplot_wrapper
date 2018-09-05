@@ -2,7 +2,7 @@ set verbose off
 set R_functions on
 
 foreign language=R
-Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize, fname) {
+Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize, fname, gray_step=19, gray_start=1, gray_end=0.4) {
   
   # URL: https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
   pkgTest("corrplot")
@@ -20,8 +20,7 @@ Corrplot_R <- function(M, method, monochrome, letterlabel, cmin, cmax, fontsize,
     # correlation range to plot gets narrower.
   }
   if (monochrome!=0) {
-    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(50, start=0.9, end=0.3), tl.col = "black", is.corr=FALSE, tl.cex=fontsize)
-	# ,col = gray.colors(10))
+    corrplot(M, method=method, cl.lim=c(cmin,cmax), col = gray.colors(gray_step, start=gray_start, end=gray_end), tl.col = "black", is.corr=FALSE, tl.cex=fontsize)
   }
   dev.off()
   0
